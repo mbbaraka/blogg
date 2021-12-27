@@ -15,7 +15,7 @@ class Post extends Model
         *
         * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
         */
-       public function categories(): BelongsTo
+       public function categories()
        {
            return $this->belongsTo(Category::class, 'category_id', 'id');
        }
@@ -25,7 +25,7 @@ class Post extends Model
         *
         * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
         */
-       public function user(): BelongsTo
+       public function user()
        {
            return $this->belongsTo(User::class, 'author_id', 'id');
        }
