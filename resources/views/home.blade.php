@@ -20,10 +20,7 @@
                     @endif
 
                     {{ __('You are logged in!') }}
-                    <form action="">
-                        <textarea id="summernote"> hello world</textarea>
-
-                    </form>
+                    
 
                 </div>
             </div>

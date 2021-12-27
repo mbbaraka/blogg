@@ -1,6 +1,6 @@
 @extends('front.app')
 
-@section('title', 'Home')
+@section('title', $title)
 
 @section('content')
 <div id="colorlib-page">
@@ -20,8 +20,8 @@
                                     <div class="meta-wrap">
                                                 <p class="meta">
                                     <span><i class="icon-calendar mr-2"></i>{{ date('M d, Y', strtotime($post->created_at)) }}</span>
-                                    <span><a href="single.html"><i class="icon-folder-o mr-2"></i>{{ $post->categories->title }}</a></span>
-                                    <span><i class="icon-comment2 mr-2"></i>5 Comment</span>
+                                    <span><a href="{{ route('category.posts', $post->categories->slug) }}"><i class="icon-folder-o mr-2"></i>{{ $post->categories->title }}</a></span>
+                                    <span><i class="icon-comment2 mr-2"></i>{{ $post->comments->count() }} @if($post->comments->count() <= 1) Comment @else Comments @endif</span>
                                         </p>
                                     </div>
                                     <p class="mb-4">{!! Str::limit($post->featured_text, 150, ('...')) !!}</p>

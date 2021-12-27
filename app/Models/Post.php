@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Post extends Model
 {
-    protected $primayKey = 'id';
+    // protected $primayKey = 'id';
 
       /**
         * Get the user that owns the Post

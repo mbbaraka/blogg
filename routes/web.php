@@ -20,18 +20,20 @@ Auth::routes();
 
 Route::middleware(['auth', 'role:admin'])->prefix('/admin')->group(function () {
     // User is authentication and has admin role
-    Route::get('/', 'HomeController@index')->name('dashboard');
+    Route::get('/', 'HomeController@admin')->name('dashboard');
 
     Route::get('/categories', 'CategoryController@index')->name('categories');
     Route::post('/add/category', 'CategoryController@store')->name('category.store');
+    Route::post('/update/{id}/category', 'CategoryController@update')->name('category.update');
+    Route::post('/delete/{id}/category', 'CategoryController@destroy')->name('category.delete');
 
     Route::get('/posts', 'PostController@index')->name('posts');
     Route::get('/posts/create', 'PostController@create')->name('posts.create');
     Route::post('/posts/store', 'PostController@store')->name('posts.store');
-    Route::get('/posts/edit/{post_id}', 'PostController@edit')->name('posts.edit');
+    Route::get('/posts/{id}/edit', 'PostController@edit')->name('posts.edit');
     Route::post('/posts/update/{id}', 'PostController@update')->name('posts.update');
     Route::get('/posts/{slug}/view', 'PostController@show')->name('posts.show');
-    Route::get('/posts/{id}/destroy', 'PostController@destroy')->name('posts.delete');
+    Route::get('/posts/{slug}/destroy', 'PostController@delete')->name('posts.delete');
 
     // Route::get('/', 'HomeController@index')->name('home');
 
@@ -47,3 +49,5 @@ Route::middleware(['auth', 'role:admin'])->prefix('/admin')->group(function () {
     Route::post('/comment/{post}', 'HomeController@comment')->name('comment.store');
 
     Route::post('/reply/{comment}', 'HomeController@reply')->name('reply.store');
+
+    Route::get('/category/{slug}', 'HomeController@category')->name('category.posts');

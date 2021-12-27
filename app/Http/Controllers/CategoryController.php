@@ -105,9 +105,41 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $category)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required',
+            'image' => 'file|image|mimes:jpeg,png,gif,jpg,csv,txt,xlx,xls,pdf|max:2048'
+        ]);
+
+        $category = Category::find($category);
+        $category->title = $request->title;
+        $category->slug = Str::slug($request->title);
+
+        if ($request->image != "") {
+
+            $file = $request->file('image');
+
+            // Generate a file name with extension
+            $fileName = 'image-'.time().'.'.$file->getClientOriginalExtension();
+
+            // Save the file
+            $path = $file->storeAs('public/categories', $fileName);
+
+            $category->image = $fileName;
+
+        }else{
+            if ($category->image == "") {
+                $category->image = $category->image;
+            }
+        }
+
+        $save = $category->save();
+
+        if ($save) {
+            toast('Updated category successfully', 'success');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -116,8 +148,14 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy($category)
     {
-        //
+        $category = Category::find($category);
+        $delete = $category->delete();
+
+        if ($delete) {
+            toast('Deleted category successfully', 'success');
+            return redirect()->back();
+        }
     }
 }

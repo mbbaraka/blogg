@@ -75,7 +75,7 @@ class PostController extends Controller
             $post->featured_image = $fileName;
 
         }else{
-            $post->attachments = "";
+            $post->featured_image = "";
         }
 
         $save = $post->save();
@@ -103,9 +103,9 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post_id)
+    public function edit($id)
     {
-        $post = Post::get();
+        $post = Post::where('id', $id)->first();
         $categories = Category::get();
         return view('post.edit', compact('post', 'categories'));
     }
@@ -117,9 +117,50 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, $post)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required',
+            'image' => 'image|mimes:jpeg,png,gif,jpg,csv,txt,xlx,xls,pdf|max:2048',
+            'category' => 'required',
+            'featured_text' => 'required|min:50|max:300',
+            'description' => 'required|min:200'
+        ]);
+
+        $post = Post::find($post);
+        $post->author_id = Auth::user()->id;
+        $post->title = $request->title;
+        $post->slug = Str::slug($request->title);
+        $post->category_id = $request->category;
+        $post->featured_text = $request->featured_text;
+        $post->description = $request->description;
+
+        if ($request->image != "") {
+
+            $file = $request->file('image');
+
+            // Generate a file name with extension
+            $fileName = 'image-'.time().'.'.$file->getClientOriginalExtension();
+
+            // Save the file
+            $path = $file->storeAs('public/posts', $fileName);
+
+            $post->featured_image = $fileName;
+
+        }else{
+            if ($post->featured_image != "") {
+                $post->featured_image = $post->featured_image;
+            }else{
+                $post->featured_image = "";
+            }
+        }
+
+        $save = $post->save();
+
+        if ($save) {
+            toast('Updated post successfully', 'success');
+            return redirect()->route('posts');
+        }
     }
 
     /**
@@ -128,14 +169,15 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function delete($id)
     {
-        $post = Post::find($post);
-        $delete = $post->delete();
+        $post = Post::where('id', $id)->first();
+        // $delete = $post->delete();
+        var_dump($post);
 
-        if ($delete) {
-            toast('Post deleted successfully', 'success');
-            return redirect()->back();
-        }
+        // if ($delete) {
+        //     toast('Post deleted successfully', 'success');
+        //     return redirect()->back();
+        // }
     }
 }

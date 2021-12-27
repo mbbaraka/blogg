@@ -14,7 +14,7 @@
             $categories = App\Models\Category::get();
         @endphp
         @foreach ($categories as $item)
-        <li><a href="">{{ $item->title }} <span>({{ $item->posts->count() }})</span></a></li>
+        <li><a href="{{ route('category.posts', $item->slug) }}">{{ $item->title }} <span>({{ $item->posts->count() }})</span></a></li>
         @endforeach
     </ul>
     </div>
@@ -54,20 +54,6 @@
         </div>
         </div>
     </div>
-    </div>
-
-    <div class="sidebar-box ftco-animate">
-    <h3 class="sidebar-heading">Tag Cloud</h3>
-    <ul class="tagcloud">
-        <a href="#" class="tag-cloud-link">animals</a>
-        <a href="#" class="tag-cloud-link">human</a>
-        <a href="#" class="tag-cloud-link">people</a>
-        <a href="#" class="tag-cloud-link">cat</a>
-        <a href="#" class="tag-cloud-link">dog</a>
-        <a href="#" class="tag-cloud-link">nature</a>
-        <a href="#" class="tag-cloud-link">leaves</a>
-        <a href="#" class="tag-cloud-link">food</a>
-    </ul>
     </div>
 
     <div class="sidebar-box subs-wrap img py-4" style="background-image: url(images/bg_1.jpg);">

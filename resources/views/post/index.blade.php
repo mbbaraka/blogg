@@ -39,8 +39,8 @@
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic example">
                                         <a class="btn btn-light" href="{{ route('posts.edit', $item->id) }}"><span class="fa fa-edit">Edit</span></a>
-                                        <button type="button" class="btn btn-light"><span class="fa fa-eye">View</span></button>
-                                        <a onclick="confirm('Are you sure you want to delete?')" href = "{{ route('posts.delete', $item->id) }}" class="btn btn-light"><span class="fa fa-trash">Delete</span></button>
+                                        <a href="{{ route('single.post', $item->slug) }}" target="_blank" class="btn btn-light"><span class="fa fa-eye">View</span></a>
+                                        <a onclick="confirm('Are you sure you want to delete?')" href = "{{ route('posts.delete', $item->id) }}" class="btn btn-light"><span class="fa fa-trash">Delete</span></a>
                                     </div>
                                 </td>
                             </tr>

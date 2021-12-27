@@ -25,11 +25,17 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+    public function admin()
+    {
+        return view('home');
+    }
+
     public function index()
     {
+        $title = 'Home';
         $categories = Category::get();
         $posts = Post::orderBy('created_at', 'desc')->paginate(10);
-        return view('front.index', compact('posts', 'categories'));
+        return view('front.index', compact('posts', 'categories', 'title'));
     }
 
     public function single ($slug) {
@@ -81,5 +87,13 @@ class HomeController extends Controller
             toast('Reply submitted successfully', 'success');
             return redirect()->back();
         }
+    }
+
+    public function category ($slug) {
+        $category = Category::where('slug', $slug)->first();
+        $posts = Post::where('category_id', $category->id)->paginate(5);
+        $categories = Category::get();
+        $title = $category->title;
+        return view('front.categories', compact('posts', 'categories', 'title', 'category'));
     }
 }
