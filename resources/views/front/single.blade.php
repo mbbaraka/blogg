@@ -45,86 +45,59 @@
 
 
                         <div class="pt-5 mt-5">
-                        <h3 class="mb-5 font-weight-bold">6 Comments</h3>
+                        <h3 class="mb-5 font-weight-bold">{{ $comments->count() }} @if($comments->count() <= 1) Comment @else Comments @endif</h3>
                         <ul class="comment-list">
+                            @foreach ($comments as $comment)
                             <li class="comment">
-                            <div class="vcard bio">
-                                <img src="images/person_1.jpg" alt="Image placeholder">
-                            </div>
-                            <div class="comment-body">
-                                <h3>John Doe</h3>
-                                <div class="meta">October 03, 2018 at 2:21pm</div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                                <p><a href="#" class="reply">Reply</a></p>
-                            </div>
-                            </li>
-
-                            <li class="comment">
-                            <div class="vcard bio">
-                                <img src="images/person_1.jpg" alt="Image placeholder">
-                            </div>
-                            <div class="comment-body">
-                                <h3>John Doe</h3>
-                                <div class="meta">October 03, 2018 at 2:21pm</div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                                <p><a href="#" class="reply">Reply</a></p>
-                            </div>
-
-                            <ul class="children">
-                                <li class="comment">
                                 <div class="vcard bio">
-                                    <img src="images/person_1.jpg" alt="Image placeholder">
+                                    <img src="{{ asset('front/images/person_1.jpg') }}" alt="Image placeholder">
                                 </div>
                                 <div class="comment-body">
-                                    <h3>John Doe</h3>
-                                    <div class="meta">October 03, 2018 at 2:21pm</div>
+                                    <h3>{{ $comment->author->name }}</h3>
+                                    <div class="meta" style="text-transform: capitalize">{{ date('M d, Y', strtotime($comment->created_at)). ' at '. date('h:i:s A', strtotime($comment->created_at)) }}</div>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                                    <p><a href="#" class="reply">Reply</a></p>
+                                    @auth
+                                        <p><a data-toggle="collapse" href="#content{{ $comment->id }}" aria-expanded="false" aria-controls="contentId" class="reply">Reply</a></p>
+
+                                        <div class="collapse" id="content{{ $comment->id }}">
+                                            <div class="comment-form-wrap">
+                                                <h3 class="mb-1">Leave a reply</h3>
+                                                <form action="{{ route('reply.store', $comment->id) }}" class="p-1 p-md-2 bg-light" method="POST">
+                                                    @csrf
+                                                    <div class="form-group">
+                                                        <label for="message">Message</label>
+                                                        <textarea name="reply" id="message" cols="30" rows="5" class="form-control"></textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="submit" value="Post Reply" class="btn btn-primary">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    @endauth
                                 </div>
+                                @if ($comment->replies->count() >= 1)
 
-
-                                <ul class="children">
+                                <ul class="children ml-5">
+                                    <h5 class="mb-2 font-weight-bold">{{ $comment->replies->count() }} @if($comment->replies->count() <= 1) Reply @else Replies @endif</h5>
+                                    @foreach ($comment->replies as $reply)
                                     <li class="comment">
-                                    <div class="vcard bio">
-                                        <img src="images/person_1.jpg" alt="Image placeholder">
-                                    </div>
-                                    <div class="comment-body">
-                                        <h3>John Doe</h3>
-                                        <div class="meta">October 03, 2018 at 2:21pm</div>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                                        <p><a href="#" class="reply">Reply</a></p>
-                                    </div>
-
-                                        <ul class="children">
-                                        <li class="comment">
-                                            <div class="vcard bio">
-                                            <img src="images/person_1.jpg" alt="Image placeholder">
-                                            </div>
-                                            <div class="comment-body">
-                                            <h3>John Doe</h3>
-                                            <div class="meta">October 03, 2018 at 2:21pm</div>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                                            <p><a href="#" class="reply">Reply</a></p>
-                                            </div>
-                                        </li>
-                                        </ul>
+                                        <div class="vcard bio">
+                                            <img src="{{ asset('front/images/person_1.jpg') }}" alt="Image placeholder">
+                                        </div>
+                                        <div class="comment-body">
+                                            <h3>{{ $reply->user->name }}</h3>
+                                            <div class="meta">{{ date('M d, Y', strtotime($reply->created_at)). ' at '. date('h:i:s A', strtotime($reply->created_at)) }}</div>
+                                            <p>
+                                                {!! $reply->reply !!}
+                                            </p>
+                                        </div>
                                     </li>
+                                    @endforeach
                                 </ul>
-                                </li>
-                            </ul>
+                                @endif
                             </li>
-
-                            <li class="comment">
-                            <div class="vcard bio">
-                                <img src="images/person_1.jpg" alt="Image placeholder">
-                            </div>
-                            <div class="comment-body">
-                                <h3>John Doe</h3>
-                                <div class="meta">October 03, 2018 at 2:21pm</div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                                <p><a href="#" class="reply">Reply</a></p>
-                            </div>
-                            </li>
+                            @endforeach
                         </ul>
                         <!-- END comment-list -->
 

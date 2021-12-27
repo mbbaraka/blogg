@@ -7,7 +7,10 @@ use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Alert;
+use App\Models\Reply;
+use App\Models\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
@@ -30,8 +33,14 @@ class HomeController extends Controller
     }
 
     public function single ($slug) {
+        $view = new View();
         $post = Post::where('slug', $slug)->first();
-        return view('front.single', compact('post'));
+        $comments = Comment::where('post_id', $post->id)->get();
+
+        $view->post_id = $post->id;
+        $view->visitor_id = Str::random(40);
+        $view->save();
+        return view('front.single', compact('post', 'comments'));
     }
 
     /**
@@ -50,6 +59,26 @@ class HomeController extends Controller
 
         if ($save) {
             toast('Comment submitted successfully', 'success');
+            return redirect()->back();
+        }
+    }
+
+    /**
+     * Store reply from the viewer
+     *
+     */
+    public function reply (Request $request, $comment) {
+        $comment = Comment::where('id', $comment)->first();
+
+        $reply = new Reply();
+        $reply->author_id = Auth::user()->id;
+        $reply->comment_id = $comment->id;
+        $reply->reply = $request->reply;
+
+        $save = $reply->save();
+
+        if ($save) {
+            toast('Reply submitted successfully', 'success');
             return redirect()->back();
         }
     }

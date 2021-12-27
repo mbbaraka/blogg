@@ -45,3 +45,5 @@ Route::middleware(['auth', 'role:admin'])->prefix('/admin')->group(function () {
     Route::get('/posts/{slug}', 'HomeController@single')->name('single.post');
 
     Route::post('/comment/{post}', 'HomeController@comment')->name('comment.store');
+
+    Route::post('/reply/{comment}', 'HomeController@reply')->name('reply.store');
