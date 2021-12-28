@@ -2,13 +2,18 @@
     <aside id="colorlib-aside" role="complementary" class="js-fullheight">
         <nav id="colorlib-main-menu" role="navigation">
             <ul>
-                <li class="colorlib-active"><a href="index.html">Home</a></li>
-                <li><a href="">Fashion</a></li>
-                <li><a href="travel.html">Travel</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li class="{{ (request()->routeIs('home')) ? 'colorlib-active' : '' }}"><a href="{{ url('/') }}">Home</a></li>
+                <li class="{{ (request()->routeIs('about')) ? 'colorlib-active' : '' }}"><a href="{{ route('about') }}">About</a></li>
+                <li class="{{ (request()->routeIs('contact')) ? 'colorlib-active' : '' }}"><a href="{{ route('contact') }}">Contact</a></li>
                 @auth
-                <li><a href="contact.html">Logout</a></li>
+                <li><a href="{{ route('logout') }}" onclick="event.preventDefault();
+                    document.getElementById('logout-form').submit();">
+                     {{ __('Logout') }}
+                 </a>
+                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+                </li>
                 @endauth
             </ul>
         </nav>

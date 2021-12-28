@@ -35,7 +35,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('/admin')->group(function () {
     Route::get('/posts/{slug}/view', 'PostController@show')->name('posts.show');
     Route::get('/posts/{slug}/destroy', 'PostController@delete')->name('posts.delete');
 
-    // Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/profile', 'HomeController@profile')->name('profile');
+
+    Route::post('/password/change', 'HomeController@changePassword')->name('password-change');
 
 
 
@@ -51,3 +53,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('/admin')->group(function () {
     Route::post('/reply/{comment}', 'HomeController@reply')->name('reply.store');
 
     Route::get('/category/{slug}', 'HomeController@category')->name('category.posts');
+
+    Route::get('/about', 'HomeController@about')->name('about');
+
+    Route::get('/contact', 'HomeController@contact')->name('contact');
