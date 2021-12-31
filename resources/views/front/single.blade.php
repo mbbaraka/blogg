@@ -110,6 +110,10 @@
                                 </form>
                             </div>
                             @else
+                            <div class="comment-form-wrap pt-5 text-center">
+                                <h4 class="mb-5">You must be logged in to comment! </h4>
+                                <p><a data-toggle="modal" href="#login">Login</a> or <a href="#register" data-toggle="modal">Register</a> to post your comment!</p>
+                            </div>
                                 @include('front.auth.auth')
                             @endauth
                         </div>

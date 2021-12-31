@@ -21,39 +21,19 @@
 
     <div class="sidebar-box ftco-animate">
     <h3 class="sidebar-heading">Popular Articles</h3>
-    <div class="block-21 mb-4 d-flex">
-        <a class="blog-img mr-4" style="background-image: url(images/image_1.jpg);"></a>
-        <div class="text">
-        <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control</a></h3>
-        <div class="meta">
-            <div><a href="#"><span class="icon-calendar"></span> June 28, 2019</a></div>
-            <div><a href="#"><span class="icon-person"></span> Dave Lewis</a></div>
-            <div><a href="#"><span class="icon-chat"></span> 19</a></div>
+        @foreach ($popular as $item)
+        <div class="block-21 mb-4 d-flex">
+            <a class="blog-img mr-4" style="background-image: url({{ asset('storage/posts/'.$item->post->featured_image) }});"></a>
+            <div class="text">
+            <h3 class="heading"><a href="{{ route('single.post', $item->post->slug) }}">{{ $item->post->title }}</a></h3>
+            <div class="meta">
+                <div><a href="#"><span class="icon-calendar"></span> {{ date('M d, Y', strtotime($item->post->created_at)) }}</a></div>
+                <div><a href="#"><span class="icon-person"></span> Admin</a></div>
+                <div><a href="#"><span class="icon-chat"></span> {{ $item->post->comments->count() }}</a></div>
+            </div>
+            </div>
         </div>
-        </div>
-    </div>
-    <div class="block-21 mb-4 d-flex">
-        <a class="blog-img mr-4" style="background-image: url(images/image_2.jpg);"></a>
-        <div class="text">
-        <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control</a></h3>
-        <div class="meta">
-            <div><a href="#"><span class="icon-calendar"></span> June 28, 2019</a></div>
-            <div><a href="#"><span class="icon-person"></span> Dave Lewis</a></div>
-            <div><a href="#"><span class="icon-chat"></span> 19</a></div>
-        </div>
-        </div>
-    </div>
-    <div class="block-21 mb-4 d-flex">
-        <a class="blog-img mr-4" style="background-image: url(images/image_3.jpg);"></a>
-        <div class="text">
-        <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control</a></h3>
-        <div class="meta">
-            <div><a href="#"><span class="icon-calendar"></span> June 28, 2019</a></div>
-            <div><a href="#"><span class="icon-person"></span> Dave Lewis</a></div>
-            <div><a href="#"><span class="icon-chat"></span> 19</a></div>
-        </div>
-        </div>
-    </div>
+        @endforeach
     </div>
 
     <div class="sidebar-box subs-wrap img py-4" style="background-image: url(images/bg_1.jpg);">

@@ -13,15 +13,9 @@
                 <div class="card-header">{{ (request()->routeIs('dashboard')) ? 'Dashboard' : '' }}</div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
-
-
+                    <div class="row justify-content-center">
+                        <h5>This is the dashboard</h5>
+                    </div>
                 </div>
             </div>
         </div>

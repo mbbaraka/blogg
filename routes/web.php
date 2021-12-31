@@ -25,7 +25,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('/admin')->group(function () {
     Route::get('/categories', 'CategoryController@index')->name('categories');
     Route::post('/add/category', 'CategoryController@store')->name('category.store');
     Route::post('/update/{id}/category', 'CategoryController@update')->name('category.update');
-    Route::post('/delete/{id}/category', 'CategoryController@destroy')->name('category.delete');
+    Route::get('/delete/{id}/category', 'CategoryController@destroy')->name('category.delete');
 
     Route::get('/posts', 'PostController@index')->name('posts');
     Route::get('/posts/create', 'PostController@create')->name('posts.create');

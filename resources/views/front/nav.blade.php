@@ -14,6 +14,9 @@
                     @csrf
                 </form>
                 </li>
+                @else
+                <li><a href="#login" data-toggle="modal">Login</a></li>
+                <li><a href="#register" data-toggle="modal">Register</a></li>
                 @endauth
             </ul>
         </nav>
@@ -34,3 +37,4 @@
   <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
         </div>
     </aside> <!-- END COLORLIB-ASIDE -->
+    @include('front.auth.auth')

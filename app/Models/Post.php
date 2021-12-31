@@ -42,4 +42,14 @@ class Post extends Model
            return $this->hasMany(Comment::class, 'post_id', 'id');
        }
 
+       /**
+        * Get all of the views for the Post
+        *
+        * @return \Illuminate\Database\Eloquent\Relations\HasMany
+        */
+        public function views(): HasMany
+        {
+            return $this->hasMany(View::class, 'post_id', 'id');
+        }
+
 }

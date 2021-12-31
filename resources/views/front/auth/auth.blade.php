@@ -1,7 +1,4 @@
-<div class="comment-form-wrap pt-5 text-center">
-    <h4 class="mb-5">You must be logged in to comment! </h4>
-    <p><a data-toggle="modal" href="#login">Login</a> or <a href="#register" data-toggle="modal">Register</a> to post your comment!</p>
-</div>
+
 {{--  Login modal  --}}
 <div id="login" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
     <div class="modal-dialog" role="document">

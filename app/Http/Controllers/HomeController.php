@@ -36,18 +36,27 @@ class HomeController extends Controller
         $title = 'Home';
         $categories = Category::get();
         $posts = Post::orderBy('created_at', 'desc')->paginate(10);
-        return view('front.index', compact('posts', 'categories', 'title'));
+        $popular = View::orderby('views', 'asc')->paginate(3);
+        return view('front.index', compact('posts', 'categories', 'title', 'popular'));
     }
 
     public function single ($slug) {
-        $view = new View();
         $post = Post::where('slug', $slug)->first();
         $comments = Comment::where('post_id', $post->id)->get();
 
-        $view->post_id = $post->id;
-        $view->visitor_id = Str::random(40);
-        $view->save();
-        return view('front.single', compact('post', 'comments'));
+        $view = View::where('post_id', $post->id)->first();
+        if ($view) {
+            $view->views = intval($view->views) + 1;
+            $view->save();
+        }else{
+            $view = new View();
+            $view->post_id = $post->id;
+            $view->views = 1;
+            $view->save();
+        }
+
+        $popular = View::orderby('views', 'asc')->paginate(3);
+        return view('front.single', compact('post', 'comments', 'popular'));
     }
 
     /**
